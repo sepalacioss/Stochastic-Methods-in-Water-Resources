@@ -1,0 +1,71 @@
+#Primer punto
+
+#Definimos parametros del problema
+media_y <- 2.0
+var_y <- 1.5
+
+# Calcular la media y la varianza de K
+media_K <- exp(media_y + var_y/2)
+var_K <- (exp(var_y) - 1) * exp(2*media_y + var_y)
+
+
+#Segundo Punto
+
+#Parametros dados del problema
+media_ch <- 10
+var_ch <- 200
+
+
+# Calcular la probabilidad de que la conductividad sea mayor que 30 m/d
+prob <- 1 - plnorm(30, meanlog = media_ch, sdlog = var_ch,lower.tail = TRUE,log.p = FALSE)
+
+#Punto 4
+
+# Given parameters
+media_Z1 <- 10
+media_Z2 <- 25
+var_Z1 <- 300
+var_Z2 <- 450
+corr_Z1_Z2 <- 0.7
+
+# a. Calculate the covariance between Z1 and Z2
+cov_Z1_Z2 <- corr_Z1_Z2 * sqrt(var_Z1) * sqrt(var_Z2)
+
+
+# b. Calculate the expected value of Y = Z1 + Z2
+media_Y <- media_Z1 + media_Z2
+
+
+# c. Calculate the variance of Y = Z1 + Z2
+var_Y <- var_Z1 + var_Z2 + 2 * cov_Z1_Z2
+
+#Punto 5
+
+install.packages("mvtnorm")
+library(mvtnorm)
+
+media_Z1 <- 10
+media_Z2 <- 25
+var_Z1 <- 300
+var_Z2 <- 450
+
+prob_Z1_less_than_30 <- pnorm(30, media_Z1, sqrt(var_Z1))
+
+
+# b. Calculate Pr[Z2 < 40]
+prob_Z2_less_than_40 <- pnorm(40, media_Z2, sqrt(var_Z2))
+
+# c. Calculate Pr[Z1 + Z2 < 50]
+media_Z1_Z2 <- media_Z1 + media_Z2
+var_Z1_Z2 <- var_Z1 + var_Z2 + 2 * cov_Z1_Z2
+prob_Z1_Z2_less_than_50 <- pnorm(50, media_Z1_Z2, sqrt(var_Z1_Z2))
+
+# d. Calculate Pr[Z1 < 30 ⋂ Z2 < 40]
+prob_Z1_less_than_30_and_Z2_less_than_40 <- pmvnorm(lower = c(-Inf, -Inf), upper = c(30, 40),
+                                                    mean = c(media_Z1, media_Z2),
+                                                    sigma = matrix(c(var_Z1, cov_Z1_Z2, cov_Z1_Z2, var_Z2), nrow = 2))
+
+
+# e. Calculate Pr[Z1 < 30 ⋃ Z2 < 40] using the inclusion-exclusion principle
+prob_Z1_less_than_30_union_Z2_less_than_40 <- prob_Z1_less_than_30 + prob_Z2_less_than_40 - prob_Z1_less_than_30_and_Z2_less_than_40
+
