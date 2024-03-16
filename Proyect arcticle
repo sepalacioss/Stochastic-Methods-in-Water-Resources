@@ -1,0 +1,198 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AGUJournalTemplate.tex: this template file is for articles formatted with LaTeX
+%
+% This file includes commands and instructions
+% given in the order necessary to produce a final output that will
+% satisfy AGU requirements, including customized APA reference formatting.
+%
+% You may copy this file and give it your
+% article name, and enter your text.
+%
+%
+% Step 1: Set the \documentclass
+%
+%
+
+%% To submit your paper:
+\documentclass[draft]{agujournal2019}
+\usepackage{url} %this package should fix any errors with URLs in refs.
+\usepackage{lineno}
+\usepackage[inline]{trackchanges} %for better track changes. finalnew option will compile document with changes incorporated.
+\usepackage{soul}
+\linenumbers
+%%%%%%%
+% As of 2018 we recommend use of the TrackChanges package to mark revisions.
+% The trackchanges package adds five new LaTeX commands:
+%
+%  \note[editor]{The note}
+%  \annote[editor]{Text to annotate}{The note}
+%  \add[editor]{Text to add}
+%  \remove[editor]{Text to remove}
+%  \change[editor]{Text to remove}{Text to add}
+%
+% complete documentation is here: http://trackchanges.sourceforge.net/
+%%%%%%%
+
+\draftfalse
+
+%% Enter journal name below.
+%% Choose from this list of Journals:
+%
+% JGR: Atmospheres
+% JGR: Biogeosciences
+% JGR: Earth Surface
+% JGR: Oceans
+% JGR: Planets
+% JGR: Solid Earth
+% JGR: Space Physics
+% Global Biogeochemical Cycles
+% Geophysical Research Letters
+% Paleoceanography and Paleoclimatology
+% Radio Science
+% Reviews of Geophysics
+% Tectonics
+% Space Weather
+% Water Resources Research
+% Geochemistry, Geophysics, Geosystems
+% Journal of Advances in Modeling Earth Systems (JAMES)
+% Earth's Future
+% Earth and Space Science
+% Geohealth
+%
+% ie, \journalname{Water Resources Research}
+
+\journalname{Universidad Nacional De Colombia}
+
+
+\begin{document}
+
+%% ------------------------------------------------------------------------ %%
+%  Title
+%
+% (A title should be specific, informative, and brief. Use
+% abbreviations only if they are defined in the abstract. Titles that
+% start with general keywords then specific terms are optimized in
+% searches)
+%
+%% ------------------------------------------------------------------------ %%
+
+% Example: \title{This is a test title}
+
+\title{Elaboración de curvas IDF usando métodos estocásticos y comparación de la incertidumbre del caudal de diseño respecto a métodos determinísticos en la cuenca del río Las Ceibas}
+
+%% ------------------------------------------------------------------------ %%
+%
+%  AUTHORS AND AFFILIATIONS
+%
+%% ------------------------------------------------------------------------ %%
+
+% Authors are individuals who have significantly contributed to the
+% research and preparation of the article. Group authors are allowed, if
+% each author in the group is separately identified in an appendix.)
+
+% List authors by first name or initial followed by last name and
+% separated by commas. Use \affil{} to number affiliations, and
+% \thanks{} for author notes.
+% Additional author notes should be indicated with \thanks{} (for
+% example, for current addresses).
+
+% Example: \authors{A. B. Author\affil{1}\thanks{Current address, Antartica}, B. C. Author\affil{2,3}, and D. E.
+% Author\affil{3,4}\thanks{Also funded by Monsanto.}}
+
+\authors{Sebastián Palacios Sánchez}
+
+
+% \affiliation{1}{First Affiliation}
+% \affiliation{2}{Second Affiliation}
+% \affiliation{3}{Third Affiliation}
+% \affiliation{4}{Fourth Affiliation}
+
+\affiliation{1}{Universidad Nacional de Colombia}
+%(repeat as many times as is necessary)
+
+%% Corresponding Author:
+% Corresponding author mailing address and e-mail address:
+
+% (include name and email addresses of the corresponding author.  More
+% than one corresponding author is allowed in this LaTeX file and for
+% publication; but only one corresponding author is allowed in our
+% editorial system.)
+
+% Example: \correspondingauthor{First and Last Name}{email@address.edu}
+
+\correspondingauthor{Sebastian Palacios}{sepalacioss@unal.edu.co}
+
+%% Keypoints, final entry on title page.
+
+%  List up to three key points (at least one is required)
+%  Key Points summarize the main points and conclusions of the article
+%  Each must be 140 characters or fewer with no special characters or punctuation and must be complete sentences
+
+% Example:
+% \begin{keypoints}
+% \item	List up to three key points (at least one is required)
+% \item	Key Points summarize the main points and conclusions of the article
+% \item	Each must be 140 characters or fewer with no special characters or punctuation and must be complete sentences
+% \end{keypoints}
+
+\begin{keypoints}
+\item Construction of IDF using stochastic and deterministic methods.
+\item The use of statistical programming languages 
+\item Reconocer la incertidumbre en la determinación del caudal de diseño
+\end{keypoints}
+
+%% ------------------------------------------------------------------------ %%
+%
+%  ABSTRACT and PLAIN LANGUAGE SUMMARY
+%
+% A good Abstract will begin with a short description of the problem
+% being addressed, briefly describe the new data or analyses, then
+% briefly states the main conclusion(s) and how they are supported and
+% uncertainties.
+
+% The Plain Language Summary should be written for a broad audience,
+% including journalists and the science-interested public, that will not have 
+% a background in your field.
+%
+% A Plain Language Summary is required in GRL, JGR: Planets, JGR: Biogeosciences,
+% JGR: Oceans, G-Cubed, Reviews of Geophysics, and JAMES.
+% see http://sharingscience.agu.org/creating-plain-language-summary/)
+%
+%% ------------------------------------------------------------------------ %%
+
+%% \begin{abstract} starts the second page
+
+\begin{abstract}
+\justify
+ IDF Curves are graphical representations that illustrate rainfall intensity for specific return periods. These return periods are measured in years, considering rainfall durations ranging from 5 minutes to 2 hours. These graphs play a crucial role because they allow us to calculate design flows for sizing various types of hydraulic infrastructure projects. In this article, we aim to compare the development of design flows using IDF curves based on deterministic methods, such as the rational method (Q=CIA), with the uncertainty introduced by constructing design flows using stochastic methods, where variations in runoff coefficients and rainfall intensity are considered.
+\end{abstract}
+
+\section*{Introducción}
+\justify
+ La determinación de caudales de diseño es de suma importancia en un estudio hidrológico, ya que con este valor se puede dimensionar diferentes tipos de infraestructuras hidráulicas. En este artículo se vera reflejado el trabajo que se realizó para obtener los resultados del caudal de diseño, en la cuenca del río Las Ceibas, utilizando métodos determinísticos como el método racional, en donde se calcula mediante la elaboración de curvas IDF, teniendo en cuenta el área de la cuenca y un valor de coeficiente de escorrentía que se toma mediante el uso tablas que vienen de estudios internacionales y compararlos con la incertidumbre generada al variar estos variables como el coeficiente de escorrentía y la intensidad de la lluvia. Para la elaboración del estudio estocásticos se tendrá el uso de lenguajes de programación  que ayudan al análisis estadístico como lo son R y Matlab. 
+
+\section{Estado del arte}
+\justify
+En Colombia los métodos estocásticos no se ven reflejados en el estudio hidrológico que uno aprende en el pregrado, esto es debido a muchas razones que se han venido solucionando día a día. Entre estas razones está la necesidad de recursos computacionales capaces de resolver modelos matemáticos y soportar aplicaciones de programación los cuales en un país en vías de desarrollo es muy difícil de garantizar para toda la población universitaria. Además de esto, existe una escasez de información ya que la serie de datos que es necesaria para realizar un buen proyecto estocástico no está disponible en todas las estaciones en donde se puede descargar parámetros hidrológicos. Por esta razón se escogió una cuenca en donde se pueden descargar datos suficientes para hacer un estudio académico. 
+
+Para este proceso se estimará las curvas de intensidad, frecuencia, duración (IDF) de la Cuenca del rio Las Ceibas mediante el método de Vargas Diaz-Granados el cual está dentro de las normas INVIAS para Colombia, con estas curvas se procederá a realizar el cálculo del caudal de diseño mediante el método racional el cual se explica como la multiplicación de un coeficiente de escorrentía, el área de la cuenca y la intensidad de la lluvia para un periodo de diseño y un tiempo de retorno (Q=CIA). Este método tiene varias problemáticas y es que el coeficiente de escorrentía que se utiliza es un coeficiente que es sacado de tablas que se realizaron en superficies y en condiciones internacional, en general en Estados unidos. Para un buen estudio hidrológico se debería hacer un estudio del coeficiente de escorrentía en la zona de estudio; sin embargo, este no es el único problema, además de eso el coeficiente de escorrentía tiende a cambiar con el tiempo, lo cual no esta previsto en el método racional. Además de eso, la intensidad de la lluvia se realiza en un estudio determinístico en donde no se hace un modelado de los datos, y en pocas ocasiones se tienen en cuento fenómenos como son los del niño, la niña, entre otros. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Captura de pantalla 2024-03-15 233620.png}
+    \caption{Cuenca Rio Las Ceibas, delimitada mediante SAGA.}
+    \label{fig:enter-label}
+\end{figure}
+
+
+Por las anteriores razones, es considerable realizar un estudio estocástico para la elaboración de las curvas IDF de la cuenca del río Las Ceibas, con el propósito de establecer una incertidumbre en la determinación del caudal de diseño. Para un correcto modelado de los datos que se descargarán del DHIME, se tendrá en cuenta un estudio de las series de tiempo para determinar su ruido blanco, entre otros parámetros estocásticos. 
+
+
+
+
+\section{Referencias}
+\begin{itemize}
+    \item Aguilar, Z. E. S., Delgado, O. S., Patarroyo-Mesa, M.,  Canaría-Camargo, L. C. (2020). Modelo matemático para estimar curvas de intensidad, duración y frecuencia de lluvias extremas en Tunja, Colombia. Información Tecnológica, 31(1), 193-206. https://doi.org/10.4067/s0718-07642020000100193
+    \item López, J. J., Delgado, O.,  Campo, M. Á. (2018). Determinación de las curvas IDF en Igueldo-San Sebastián. Comparación de diferentes métodos. Ingeniería del Agua, 22(4), 209. https://doi.org/10.4995/ia.2018.9480
+    \item Ombadi, M., Nguyen, P., Sorooshian, S.,  Hsu, K. (2018). Developing intensity-duration-frequency (IDF) curves from satellite-based precipitation: Methodology and evaluation. Water Resources Research, 54, 7752–7766. https://doi.org/10.1029/2018WR022929
+    \item Sørup, H. J. D., Christensen, O., Arnbjerg‐Nielsen, K.,  Mikkelsen, P. S. (2016). Downscaling future precipitation extremes to urban hydrology scales using a spatio-temporal Neyman–Scott weather generator. Hydrology And Earth System Sciences, 20(4), 1387-1403. https://doi.org/10.5194/hess-20-1387-2016
