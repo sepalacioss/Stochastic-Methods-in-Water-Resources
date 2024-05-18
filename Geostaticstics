@@ -1,0 +1,123 @@
+
+clear;
+clc;
+
+% Definición del dominio y puntos de medición
+domain = [0, 100; 0, 100];  
+num_existing_points = 5;  
+num_additional_points = 10;  
+total_points = num_existing_points + num_additional_points;
+
+% Generación de puntos de medición existentes aleatorios
+existing_points = rand(num_existing_points, 2) * 100;
+
+% Generación de candidatos para puntos adicionales
+candidate_points = rand(20, 2) * 100;
+
+% Parámetros del variograma 
+range = 30;  % Rango del variograma
+sill = 1;    % Sill del variograma
+nugget = 0.1; % Nugget del variograma
+
+% Cálculo de la matriz de covarianza usando el variograma esférico
+covariance_matrix = sill * (1.5 * (pdist2(existing_points, existing_points) / range) - 0.5 * (pdist2(existing_points, existing_points) / range).^3);
+covariance_matrix(pdist2(existing_points, existing_points) > range) = 0;
+covariance_matrix = covariance_matrix + nugget * eye(num_existing_points);
+
+function [estimation, variance] = kriging(existing_points, candidate_points, covariance_matrix, variogram_params)
+    num_existing_points = size(existing_points, 1);
+    num_candidate_points = size(candidate_points, 1);
+
+    % Matriz de covarianza entre puntos existentes y candidatos
+    cross_covariance_matrix = variogram_params.sill * (1.5 * (pdist2(existing_points, candidate_points) / variogram_params.range) - 0.5 * (pdist2(existing_points, candidate_points) / variogram_params.range).^3);
+    cross_covariance_matrix(pdist2(existing_points, candidate_points) > variogram_params.range) = 0;
+
+    % Resolución de las ecuaciones de kriging
+    weights = covariance_matrix \ cross_covariance_matrix;
+    estimation = weights' * rand(num_existing_points, 1);  % Simulación de mediciones
+    variance = variogram_params.sill - sum(weights .* cross_covariance_matrix, 1)';
+end
+
+function optimal_set = total_enumeration(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points)
+    combinations = nchoosek(1:size(candidate_points, 1), num_additional_points);
+    min_variance = inf;
+    optimal_set = [];
+
+    for i = 1:size(combinations, 1)
+        selected_points = candidate_points(combinations(i, :), :);
+        [~, variance] = kriging(existing_points, selected_points, covariance_matrix, variogram_params);
+        if variance < min_variance
+            min_variance = variance;
+            optimal_set = selected_points;
+        end
+    end
+end
+
+function optimal_set = branch_and_bound(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points)
+    min_variance = inf;
+    optimal_set = [];
+    % Se debe desarrollar una función de búsqueda eficiente aquí
+end
+
+function optimal_set = sequential_inclusion(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points)
+    for i = 1:num_additional_points
+        best_point = [];
+        min_variance = inf;
+        for j = 1:size(candidate_points, 1)
+            test_point = candidate_points(j, :);
+            [~, variance] = kriging(existing_points, test_point, covariance_matrix, variogram_params);
+            if variance < min_variance
+                min_variance = variance;
+                best_point = test_point;
+            end
+        end
+        existing_points = [existing_points; best_point];
+        candidate_points(ismember(candidate_points, best_point, 'rows'), :) = [];
+    end
+    optimal_set = existing_points;
+end
+
+function optimal_set = sequential_exchanges(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points)
+    current_set = existing_points;
+    for i = 1:num_additional_points
+        best_swap = [];
+        min_variance = inf;
+        for j = 1:size(current_set, 1)
+            for k = 1:size(candidate_points, 1)
+                temp_set = current_set;
+                temp_set(j, :) = candidate_points(k, :);
+                [~, variance] = kriging(existing_points, temp_set, covariance_matrix, variogram_params);
+                if variance < min_variance
+                    min_variance = variance;
+                    best_swap = [j, k];
+                end
+            end
+        end
+        if ~isempty(best_swap)
+            current_set(best_swap(1), :) = candidate_points(best_swap(2), :);
+            candidate_points(best_swap(2), :) = [];
+        end
+    end
+    optimal_set = current_set;
+end
+
+% Parámetros del variograma
+variogram_params.range = range;
+variogram_params.sill = sill;
+variogram_params.nugget = nugget;
+
+% Ejecución de los algoritmos
+optimal_set_enumeration = total_enumeration(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points);
+optimal_set_inclusion = sequential_inclusion(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points);
+optimal_set_exchanges = sequential_exchanges(existing_points, candidate_points, covariance_matrix, variogram_params, num_additional_points);
+
+% Mostrar resultados
+disp('Optimal set by total enumeration:');
+disp(optimal_set_enumeration);
+disp('Optimal set by sequential inclusion:');
+disp(optimal_set_inclusion);
+disp('Optimal set by sequential exchanges:');
+disp(optimal_set_exchanges);
+
+
+
